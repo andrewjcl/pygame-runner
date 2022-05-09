@@ -19,6 +19,12 @@ snail_rect = snail_surf.get_rect(midbottom = (600, 300))
 
 player_surf = pygame.image.load('graphics/Player/player_walk_1.png').convert_alpha()
 player_rect = player_surf.get_rect(midbottom = (80, 300))
+player_gravity = 0
+BEANS = 12
+player_beans = BEANS
+player_falling = False
+player_rising = False
+player_on_ground = True
 
 # Game event loop
 while True:
@@ -40,13 +46,18 @@ while True:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 print('jump')
+                if player_on_ground:
+                    player_on_ground = False
+                    player_rising = True
+                    player_beans = BEANS
+
+                
 
     # Blit images
     screen.blit(sky_surface, (0, 0))
     screen.blit(ground_surface, (0, 300))
     pygame.draw.rect(screen, '#c0e8ec', score_rect)
     pygame.draw.rect(screen, '#c0e8ec', score_rect, 10)
-
     screen.blit(score_surf, score_rect)
     screen.blit(snail_surf, snail_rect)
     screen.blit(player_surf, player_rect)
@@ -58,15 +69,30 @@ while True:
     if player_rect.colliderect(snail_rect):
         print('COLLISION!')
 
+    if player_rising:
+        player_rect.y -= player_beans
+        player_beans -= 0.5
+        max_negative_beans = -12
+        if player_beans < max_negative_beans:
+            player_beans = max_negative_beans
+ 
 
+
+    # Hitting ground check
+    if player_rect.bottom > 300:
+        player_on_ground = True
+        player_falling = False
+        player_rect.bottom = 300
+   
     # mouse_pos = pygame.mouse.get_pos()
     # if player_rect.collidepoint(mouse_pos):
     #     print(pygame.mouse.get_pos())
 
 
+    print('works yeah!')
+
     pygame.display.update()
     clock.tick(60)
-
 
     # 1:37:37
     # https://www.youtube.com/watch?v=AY9MnQ4x3zk
