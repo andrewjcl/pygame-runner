@@ -63,6 +63,7 @@ while True:
     # if player_rect.collidepoint(mouse_pos):
     #     print(pygame.mouse.get_pos())
 
+    print('No jumping allowed.')
 
     pygame.display.update()
     clock.tick(60)
