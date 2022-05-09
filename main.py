@@ -11,7 +11,7 @@ test_font = pygame.font.Font('font/Pixeltype.ttf', 35)
 sky_surface = pygame.image.load('graphics/Sky.png').convert()
 ground_surface = pygame.image.load('graphics/ground.png').convert()
 
-score_surf = test_font.render('My game', False, 'Black')
+score_surf = test_font.render('My game', False, (80, 80, 80))
 score_rect = score_surf.get_rect(center = (400, 50))
 
 snail_surf = pygame.image.load('graphics/snail/snail1.png').convert_alpha()
@@ -37,29 +37,26 @@ while True:
                 print('** sky **')
             else:
                 print('** ground **')
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                print('jump')
 
     # Blit images
     screen.blit(sky_surface, (0, 0))
     screen.blit(ground_surface, (0, 300))
-    pygame.draw.rect(screen, 'Pink', score_rect)
-    pygame.draw.rect(screen, 'Pink', score_rect, 10)
-    
+    pygame.draw.rect(screen, '#c0e8ec', score_rect)
+    pygame.draw.rect(screen, '#c0e8ec', score_rect, 10)
+
     screen.blit(score_surf, score_rect)
     screen.blit(snail_surf, snail_rect)
     screen.blit(player_surf, player_rect)
 
-
-
-    pygame.draw.line(screen, 'Gold', (400, 150), pygame.mouse.get_pos(), 2)
-
     # Update positions
-    snail_rect.x -= 2
+    snail_rect.x -= 4
     if snail_rect.right < 0: snail_rect.right = 800
 
-
-
-    # if player_rect.colliderect(snail_rect):
-    #     print('COLLISION!')
+    if player_rect.colliderect(snail_rect):
+        print('COLLISION!')
 
 
     # mouse_pos = pygame.mouse.get_pos()
